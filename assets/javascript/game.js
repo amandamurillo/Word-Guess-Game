@@ -1,64 +1,69 @@
 //1. Use key events to listen for the letters that your players will type.
 //2. Display the following on the page:Press any key to get started!
+
 //3. Track Wins: (# of times user guessed the word correctly).
+//6. Number of Guesses Remaining: (# of guesses remaining for the user).
+
 //4. If the word is madonna, display it like this when the game starts: _ _ _ _ _ _ _.
 //5. As the user guesses the correct letters, reveal them: m a d o _  _ a.
-//6. Number of Guesses Remaining: (# of guesses remaining for the user).
+
 //7. Letters Already Guessed: (Letters the user has guessed, displayed like L Z Y H).
 //8. After the user wins/loses the game should automatically choose another word and make the user play it. -->
 
 
+var alphabet = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
+var words = ['cat', 'tree','bark', 'defiant', 'moses', 'language', 'chrysanthemum']
+var gameStarted = false;        // Flag to tell if the game has started
+var hasFinished = false;        // Flag for 'press any key to try again'     
 
 
+//1. Use key events to listen for the letters that your players will type.
+document.onkeyup = function(event) {
+    var userGuess = event.key;
+}
 
-var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"] 
-        var words = ['cat', 'tree','bark', 'defiant', 'moses', 'language', "chrysanthemum"]
+//2. Display the following on the page: Press any key to get started!
+
+alert("Press any key to get started!");
+
+// 3 && 6 tracking:
+        var wins = 0;
+        var losses = 0;
         var guessesLeft = 8; 
-        var userGuess = "";
 
-    // Clear out arrays
+    // Placeholder arrays
     guessedLetters = [];
     guessingWord = [];
 
 // <!-- Computer choosing random word -->
 var randomWord = words[Math.floor(Math.random() * words.length)];
 
-//1. Use key events to listen for the letters that your players will type.
-    document.onkeyup = function(event) {
-    var userGuess = event.key;
-}
 
-// //2. Display the following on the page:Press any key to get started!
-
-alert("Press any key to get started");
-
-
-    // Build the guessing word and clear it out
-    // Create letter slots for each letter of the random word
+// 4. Display number of letters when the game starts
     for (var i = 0; i < randomWord.length; i++) {
         guessingWord.push("_");
     }
 
-// <!-- // This function takes a letter and finds all instances of 
-// appearance in the string and replaces them in the guess word.
+// this function takes a letter, finds all instances of letter in randomWord
+//if there is a match, pushes index of letter to placeholder array positions
+//if empty array, subtract a guess 
+//else will take array of [_ _ _ _ _] and put replaces _ them in the guess word.
+
 function evaluateGuess(letter) {
-    // Array to store positions of letters in string
+    //  Array that will hold pushed indicies
     var positions = [];
 
     // Loop through word finding all instances of guessed letter, store the indicies in an array.
     for (var i = 0; i < randomWord.length; i++) {
         if(randomWord[i] === letter) {
             positions.push(i);
-
-            // ^pushing the indicies
+            //we want to remember where letter is (index) and replace in same position in guessing word array
         }
     }
-
-    // if there are no indicies( positions arr length less than or equal to 0)
-    //  remove a guess 
-
+    // if there are no indicies( positions arr length less than or equal to 0), remove a guess
     if (positions.length <= 0) {
         guessesLeft--;
+//5. As the user guesses the correct letters, reveal them: m a d o _  _ a.
 
     } else {
         // Loop through all the indicies and replace the '_' with a letter.
@@ -68,78 +73,43 @@ function evaluateGuess(letter) {
     }
 }; 
 
-
-
-words.forEach(function(element){
-    if (words === element){
-        return 
-    }
-})
-
-// <!-- function that will delete userGuess from letters array -->
-
-function deleteMatch(letter){
-    alphabet.forEach(function(i){
-        if(letter === i){
-            delete i;
-        }
-    })
-}
-
-
-
-
-
-        var match = array1.find(function(element) {
-  return element > 10;
-});
-
-// <!-- word is placed on screen -->
-// <!-- Lets pretend word is "bark" -->
-// <!-- user picks a letter "a" -->
-
-
-function matchGuessToLetter(letter){
-   .forEach(function(letter){
-       if(userGuess === letter){
-
-       }
-   }) if (userGuess === )
-}
-
-// <!-- filter thru the word to see if theres a matching letter -->
-
-
-
-// <!-- function that removes choice from array of letters -->
-        function removeLetterChoice(letter){
-            letters.filter()
-            if ( userguess === )
+function makeGuess(letter) {
+    if (guessesLeft > 0) {
+        if (!gameStarted) {
+            gameStarted = true;
         }
 
-
-// <!-- filter thru array to see if there's a match, if Y delete ltr from array
-    // If N,  -->
-var newLetters = letters.filter(function(letter){
-    return userGuess === letter;
-})
-
-// <!-- user choice event key  -->
-    document.onkeyup = function(event) {
-        var userGuess = event.key;
+        // Make sure we didn't use this letter yet, indexOf equaling -1 means it is not in array
+        if (guessedLetters.indexOf(letter) === -1) {
+            guessedLetters.push(letter);
+            evaluateGuess(letter);
+        }
     }
-// <!-- computer random choice of word -->
+}
 
-    var compChoice = words[Math.floor(Math.random() * array.length)];
+    if (alphabet.indexOf(letter) === -1){
 
-// <!-- Comparison -->
+    }
 
-    if (userGuess === "r" && compChoice === "p") || (userGuess === "s" && compChoice === "r") || (userGuess === "p" && compChoice === "s"){
-    losses++;
-    }
-    else if (userGuess === compChoice){
-    ties++;
-    }
-    else {
-    wins++;
-    }
+ //translate HTML into JS var and use to manipulate in JS
+ var directionsText = document.getElementById("directions-text");
+ var userChoiceText = document.getElementById("userguess-text");
+ var computerChoiceText = document.getElementById("guessedletters-text");
+ var computerChoiceText = document.getElementById("guessedwords-text");
+ var computerChoiceText = document.getElementById("guessesleft-text");
+ var winsText = document.getElementById("wins-text");
+ var lossesText = document.getElementById("losses-text");
+
+
+            // Hide the directions
+            directionsText.textContent = "";
+
+            // Display the user and computer guesses, and wins/losses/ties.
+            userChoiceText.textContent = "You chose: " + userGuess;
+            computerChoiceText.textContent = "The computer chose: " + computerGuess;
+            winsText.textContent = "wins: " + wins;
+            lossesText.textContent = "losses: " + losses;
+            tiesText.textContent = "ties: " + ties;
+          } else {
+            directionsText.textContent = "That ain't an r, p or s!!!!"
+          }
