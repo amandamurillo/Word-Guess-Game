@@ -11,39 +11,56 @@
 //8. After the user wins/loses the game should automatically choose another word and make the user play it. -->
 
 
-var alphabet = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
+// var alphabet = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
 var words = ['cat', 'tree','bark', 'defiant', 'moses', 'language', 'chrysanthemum']
 var gameStarted = false;        // Flag to tell if the game has started
 var hasFinished = false;        // Flag for 'press any key to try again'     
-
+var randomWord;
+var dashedWord;
+var guessedLetters = [];
+var guessingWord = [];
+var wins = 0;
+var losses = 0;
+var guessesLeft = 8; 
+var directionsText = document.getElementById("directions-text");
+var userGuessText = document.getElementById("userguess-text");
+var guessText = document.getElementById("guessedletters-text");
+var guessWord = document.getElementById("guessedwords-text");
+var guessesLeft = document.getElementById("guessesleft-text");
+var winsText = document.getElementById("wins-text");
+var lossesText = document.getElementById("losses-text");
 
 //1. Use key events to listen for the letters that your players will type.
-document.onkeyup = function(event) {
-    var userGuess = event.key;
-}
+
 
 //2. Display the following on the page: Press any key to get started!
 
-alert("Press any key to get started!");
+// alert("Press any key to get started!");
+
+function startGame(){
+
+    randomWord = words[Math.floor(Math.random() * words.length)];
+    console.log(randomWord);
+    makeDashes(randomWord);
+}
+
+
 
 // 3 && 6 tracking:
-        var wins = 0;
-        var losses = 0;
-        var guessesLeft = 8; 
-
+   
     // Placeholder arrays
-    guessedLetters = [];
-    guessingWord = [];
+
 
 // <!-- Computer choosing random word -->
-var randomWord = words[Math.floor(Math.random() * words.length)];
 
 
+function makeDashes(word){
 // 4. Display number of letters when the game starts
-    for (var i = 0; i < randomWord.length; i++) {
-        guessingWord.push("_");
+    for (var i = 0; i < word.length; i++) {
+        guessingWord.push("-");
     }
-
+    guessText.textContent = guessingWord.join('');
+}
 // this function takes a letter, finds all instances of letter in randomWord
 //if there is a match, pushes index of letter to placeholder array positions
 //if empty array, subtract a guess 
@@ -87,29 +104,38 @@ function makeGuess(letter) {
     }
 }
 
-    if (alphabet.indexOf(letter) === -1){
-
-    }
 
  //translate HTML into JS var and use to manipulate in JS
- var directionsText = document.getElementById("directions-text");
- var userChoiceText = document.getElementById("userguess-text");
- var computerChoiceText = document.getElementById("guessedletters-text");
- var computerChoiceText = document.getElementById("guessedwords-text");
- var computerChoiceText = document.getElementById("guessesleft-text");
- var winsText = document.getElementById("wins-text");
- var lossesText = document.getElementById("losses-text");
 
 
-            // Hide the directions
-            directionsText.textContent = "";
 
-            // Display the user and computer guesses, and wins/losses/ties.
-            userChoiceText.textContent = "You chose: " + userGuess;
-            computerChoiceText.textContent = "The computer chose: " + computerGuess;
-            winsText.textContent = "wins: " + wins;
-            lossesText.textContent = "losses: " + losses;
-            tiesText.textContent = "ties: " + ties;
-          } else {
-            directionsText.textContent = "That ain't an r, p or s!!!!"
-          }
+// // Hide the directions
+// directionsText.textContent = "";
+
+//  // Display the user and computer guesses, and wins/losses/ties.
+// userChoiceText.textContent = "You chose: " + userGuess;
+// computerChoiceText.textContent = "The computer chose: " + computerGuess;
+// winsText.textContent = "wins: " + wins;
+// lossesText.textContent = "losses: " + losses;
+// tiesText.textContent = "ties: " + ties;
+
+document.onkeyup = function(event) {
+    var userGuess = event.key;
+
+    for(var i = 0; i < randomWord.length; i++){
+        if(userGuess === randomWord[i]){
+            // console.log("you found a letter!")
+            guessingWord[i] = userGuess;
+            guessText.textContent = guessingWord.join('');
+        }
+    }
+
+    if(randomWord === guessingWord.join('')){
+        alert("You win!");
+        startGame();
+    }
+    
+}
+
+
+startGame();
