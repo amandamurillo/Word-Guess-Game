@@ -48,23 +48,21 @@ function makeDashes(word){
 }
 
 function reset(){
-guessText.textContent = "" 
-hasFinished = false;
+guessText.textContent = ""; 
 guessesLeft = maxTries;
+startGame();
 }
 
 document.onkeyup = function(event) {
     var userGuess = event.key;
-
+    guessedLetters.push(userGuess);
+    userGuessText.textContent = guessedLetters.join(' ');
+    
     for(var i = 0; i < randomWord.length; i++){
         if(userGuess === randomWord[i]){
             // console.log("you found a letter!")
             guessingWord[i] = userGuess;
             guessText.textContent = guessingWord.join('');
-        }
-         else{
-            guessedLetters.push(userGuess);
-            userGuessText.textContent = guessedLetters.join(' ');
         }
     }
 
@@ -73,7 +71,6 @@ document.onkeyup = function(event) {
         hasFinished = true;
         wins ++;
         reset();
-        startGame();
   }
 }
 
