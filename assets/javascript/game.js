@@ -67,6 +67,8 @@ document.onkeyup = function(event) {
     if(event.keyCode >= 65 && event.keyCode <= 90){
         guessedLetters.push(userGuess);
         userGuessText.textContent = guessedLetters.join(' ');
+    } else {
+        return;
     }
 
     for(var i = 0; i < randomWord.length; i++){
@@ -76,13 +78,12 @@ document.onkeyup = function(event) {
             guessText.textContent = guessingWord.join('');
         }
     }
-    for(var i = 0; i < randomWord.length; i++){
-        if(userGuess !== randomWord[i]){
-            console.log("wrong again");
+    for(var i = 0; i < guessedLetters.length; i++){
+        if(userGuess !== guessedLetters[i]){
             alreadyPicked = false;
         }
     }
-       if(alreadyPicked === false){
+    if(alreadyPicked === false){
         maxTries--;
         guessesLeft.textContent = "guesses left: " + maxTries;
         }
