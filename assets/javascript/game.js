@@ -39,6 +39,7 @@ function reset(){
     maxTries = 10;
     }
 
+
 function checkLoss(number){
    if(maxTries <=0){
     alert("You lost!");
@@ -57,13 +58,16 @@ function checkWin(something){
     }
 }
 
+
+
 document.onkeyup = function(event) {
     var userGuess = event.key;
+    alreadyPicked = true;
 
     if(event.keyCode >= 65 && event.keyCode <= 90){
         guessedLetters.push(userGuess);
         userGuessText.textContent = guessedLetters.join(' ');
-    } 
+    }
 
     for(var i = 0; i < randomWord.length; i++){
         if(userGuess === randomWord[i]){
@@ -72,16 +76,24 @@ document.onkeyup = function(event) {
             guessText.textContent = guessingWord.join('');
         }
     }
+    for(var i = 0; i < randomWord.length; i++){
+        if(userGuess !== randomWord[i]){
+            console.log("wrong again");
+            alreadyPicked = false;
+        }
+    }
+       if(alreadyPicked === false){
+        maxTries--;
+        guessesLeft.textContent = "guesses left: " + maxTries;
+        }
 
         checkWin();
         checkLoss();
-        
-        if((randomWord.includes(userGuess) === false)){
-            maxTries--;
-            guessesLeft.textContent = "guesses left: " + maxTries;
-    }
+
 }
 
 
-
 startGame();
+
+
+//nto allow repeats
